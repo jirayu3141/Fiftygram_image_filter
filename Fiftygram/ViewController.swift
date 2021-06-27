@@ -17,29 +17,26 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     // action that happens after clicking "Sepia button"
     @IBAction func applySepia() {
         print("applying Sepia")
-        guard let original = original else {
-            return
-        }
         let filter = CIFilter(name: "CISepiaTone")  // creating filter instance
         filter?.setValue(0.5, forKey: kCIInputIntensityKey) // setting intensity
-        filter?.setValue(CIImage(image: original), forKey: kCIInputImageKey)    // setting the image to filter
-        let output = filter?.outputImage
-        //convert output to the correct type and setting the image
-        imageView.image = UIImage(cgImage: self.context.createCGImage(output!, from: output!.extent)!)
+        display(filter: filter!)
     }
     
     @IBAction func applyNoir() {
         print("applying Noir")
+        let filter = CIFilter(name: "CIPhotoEffectNoir")  // creating filter instance
+        display(filter: filter!)
+    }
+    
+    func display(filter: CIFilter) {
         guard let original = original else {
             return
         }
-        let filter = CIFilter(name: "CIPhotoEffectNoir")  // creating filter instance
-        filter?.setValue(CIImage(image: original), forKey: kCIInputImageKey)    // setting the image to filter
-        let output = filter?.outputImage
+        filter.setValue(CIImage(image: original), forKey: kCIInputImageKey)    // setting the image to filter
+        let output = filter.outputImage
         //convert output to the correct type and setting the image
         imageView.image = UIImage(cgImage: self.context.createCGImage(output!, from: output!.extent)!)
     }
-    
     
     @IBAction func choosePhoto() {
         print("test")
